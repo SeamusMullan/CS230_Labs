@@ -9,6 +9,7 @@ function reset() {
     time = 1_500_000;
     document.getElementById('time').innerHTML = convertTime(time);
     isPaused = true;
+    document.getElementById('msg').innerHTML = 'Timer ready!';
 }
 
 function pause() {
@@ -31,6 +32,14 @@ function tick() {
     } else {
         console.log('tick');
         time -= 1000;
+        if (time <= 0) {
+            clearInterval(intervalId);
+            running = false;
+            document.getElementById('msg').innerHTML = 'Take a break!';
+            return;
+        } else {
+            document.getElementById('msg').innerHTML = 'Keep on workin!';
+        }
     }
     
     document.getElementById('time').innerHTML = convertTime(time);

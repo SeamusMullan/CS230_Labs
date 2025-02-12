@@ -26,7 +26,6 @@ body{
 
 #timer-controls{
     display: flex;
-    width: 50%;
     justify-content: space-between;
     margin-top: 5px;
     
