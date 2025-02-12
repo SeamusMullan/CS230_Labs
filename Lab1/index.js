@@ -10,6 +10,7 @@ function reset() {
     document.getElementById('time').innerHTML = convertTime(time);
     isPaused = true;
     document.getElementById('msg').innerHTML = 'Timer ready!';
+    document.getElementById('time').style.color = '#000000';
 }
 
 function pause() {
@@ -21,7 +22,7 @@ function start() {
     // stops multiple intervals from running
     // aka if you spam start without this, the counter ticks down faster
     if (!running){
-        intervalId = setInterval(tick, 1000);
+        intervalId = setInterval(tick, 10);
         running = true;
     }
 }
@@ -32,7 +33,7 @@ function tick() {
     } else {
         console.log('tick');
         time -= 1000;
-        if (time <= 0) {
+        if (time < 0) {
             clearInterval(intervalId);
             running = false;
             document.getElementById('msg').innerHTML = 'Take a break!';
@@ -40,6 +41,11 @@ function tick() {
         } else {
             document.getElementById('msg').innerHTML = 'Keep on workin!';
         }
+    }
+    
+    if (time <= 60_000) {
+        console.log("bingus");
+        document.getElementById('time').style.color = '#ff0000';
     }
     
     document.getElementById('time').innerHTML = convertTime(time);
