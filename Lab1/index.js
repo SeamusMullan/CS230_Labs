@@ -7,10 +7,13 @@ var running = false;
 
 function reset() {
     time = 1_500_000;
-    document.getElementById('time').innerHTML = convertTime(time);
+    document.getElementById('timer').innerHTML = convertTime(time);
     isPaused = true;
     document.getElementById('msg').innerHTML = 'Timer ready!';
-    document.getElementById('time').style.color = '#000000';
+    
+    // document.getElementById('timer').style.color = '#ffffff';
+    document.getElementById('timer').classList.remove('timer-finished');
+    document.getElementById('timer').classList.add('timer');
 }
 
 function pause() {
@@ -45,10 +48,12 @@ function tick() {
     
     if (time <= 60_000) {
         console.log("bingus");
-        document.getElementById('time').style.color = '#ff0000';
+        // document.getElementById('timer').style.color = '#ff0000';
+        document.getElementById('timer').classList.remove('timer');
+        document.getElementById('timer').classList.add('timer-finished');
     }
     
-    document.getElementById('time').innerHTML = convertTime(time);
+    document.getElementById('timer').innerHTML = convertTime(time);
 }
 
 function convertTime(ms) {
