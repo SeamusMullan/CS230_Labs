@@ -22,7 +22,7 @@ function start() {
     // stops multiple intervals from running
     // aka if you spam start without this, the counter ticks down faster
     if (!running){
-        intervalId = setInterval(tick, 10);
+        intervalId = setInterval(tick, 1000);
         running = true;
     }
 }
