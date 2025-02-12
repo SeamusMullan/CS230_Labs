@@ -17,7 +17,14 @@ function reset() {
 }
 
 function pause() {
-    isPaused = true;
+    isPaused = !isPaused;
+    if (isPaused){
+        document.getElementById('pause').innerHTML = 'Resume';
+        document.getElementById('msg').innerHTML = 'Timer paused!';
+    } else {
+        document.getElementById('pause').innerHTML = 'Pause';
+        document.getElementById('msg').innerHTML = 'Keep on workin!';
+    }
 }
 
 function start() {
