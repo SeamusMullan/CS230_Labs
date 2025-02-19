@@ -6,6 +6,8 @@ var intervalId;
 var running = false;
 
 function reset() {
+    clearInterval(intervalId);
+    running = false;
     time = 1_500_000;
     document.getElementById('timer').innerHTML = convertTime(time);
     isPaused = true;
@@ -31,6 +33,10 @@ function start() {
     isPaused = false;
     // stops multiple intervals from running
     // aka if you spam start without this, the counter ticks down faster
+    if(time <= 0) {
+        reset();
+    }
+
     if (!running){
         intervalId = setInterval(tick, 1000);
         running = true;
@@ -46,7 +52,10 @@ function tick() {
         if (time < 0) {
             clearInterval(intervalId);
             running = false;
+            time = 0; // to prevent negative time from displaying
+            document.getElementById('timer').innerHTML = '0:00';
             document.getElementById('msg').innerHTML = 'Take a break!';
+            alert('Time is up!');
             return;
         } else {
             document.getElementById('msg').innerHTML = 'Keep on workin!';
