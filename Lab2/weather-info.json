@@ -1,0 +1,28 @@
+{
+    "cities": {
+        "dublin": {
+            "temperatureCelsius": 12,
+            "humidity": 80,
+            "uvIndex": 3,
+            "windSpeed": 20
+        },
+        "london": {
+            "temperatureCelsius": 15,
+            "humidity": 75,
+            "uvIndex": 4,
+            "windSpeed": 12
+        },
+        "paris": {
+            "temperatureCelsius": 18,
+            "humidity": 70,
+            "uvIndex": 5,
+            "windSpeed": 14
+        },
+        "madrid": {
+            "temperatureCelsius": 25,
+            "humidity": 60,
+            "uvIndex": 6,
+            "windSpeed": 15
+        }
+    }
+}
