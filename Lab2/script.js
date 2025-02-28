@@ -97,7 +97,7 @@ function populateCityInfo(data, cityName) {
             if (tempElement) tempElement.innerText = cityData.temperatureCelsius + '°C';
             if (humidElement) humidElement.innerText = cityData.humidity * 100 + '% Humidity';
             if (uvElement) uvElement.innerText = cityData.uvIndex + ' UV';
-            if (windElement) windElement.innerText = cityData.windSpeed + ' km/h';
+            if (windElement) windElement.innerText = cityData.windSpeed + '/h';
             break;
         case 'temperature.html':
             if (tempElement) tempElement.innerText = cityData.temperatureCelsius + '°C';
@@ -109,7 +109,7 @@ function populateCityInfo(data, cityName) {
             if (uvElement) uvElement.innerText = cityData.uvIndex + ' UV';
             break;
         case 'wind.html':
-            if (windElement) windElement.innerText = cityData.windSpeed + ' km/h';
+            if (windElement) windElement.innerText = cityData.windSpeed + '/h';
             break;
         default:
             console.log('Page not specified: ' + page);
