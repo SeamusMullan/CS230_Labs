@@ -180,12 +180,12 @@ function updateStyles(data){
     const temperature = data.temperatureCelsius;
     const humidity = data.humidity;
     const uv = data.uvIndex;
-    const wind = data.windSpeed;
+    const wind = parseFloat(data.windSpeed.replace('km', ''));
     
     const page = window.location.pathname.split('/').pop();
 
     // Temperature styling
-    if (page === 'temperature.html' || page === '' || page === 'index.html') {
+    if (page === 'temperature.html') {
         const bodyElement = document.body;
         bodyElement.classList.remove('temp-cold', 'temp-moderate', 'temp-hot');
         
@@ -206,7 +206,7 @@ function updateStyles(data){
     }
 
     // Humidity styling
-    if (page === 'humidity.html' || page === '' || page === 'index.html') {
+    if (page === 'humidity.html') {
         const bodyElement = document.body;
         bodyElement.classList.remove('humid-low', 'humid-moderate', 'humid-high');
         
@@ -220,7 +220,7 @@ function updateStyles(data){
     }
 
     // UV Index styling
-    if (page === 'uv.html' || page === '' || page === 'index.html') {
+    if (page === 'uv.html') {
         const bodyElement = document.body;
         bodyElement.classList.remove('uv-low', 'uv-moderate', 'uv-high');
         
@@ -234,7 +234,7 @@ function updateStyles(data){
     }
 
     // Wind styling
-    if (page === 'wind.html' || page === '' || page === 'index.html') {
+    if (page === 'wind.html') {
         const bodyElement = document.body;
         bodyElement.classList.remove('wind-calm', 'wind-moderate', 'wind-strong');
         
