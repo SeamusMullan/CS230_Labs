@@ -3,18 +3,18 @@
     <head>
         <title>Humidity</title>
         <meta name="description" content="Humidity information page">
-        <link rel="stylesheet" href="styles.css">
+        <link rel="stylesheet" href="../styles.css">
     </head>
     <body class="humidity">
-        <!-- 
-        Create a HTML page displaying the humidity with
-         - a title
-         - a paragraph (with an id for humidity data)
-         - space for a thermometer icon
-         -->
-        <h1>Humidity</h1>        
-        <p id="humidity"></p>
-        <div id="drop-icon"></div>
+        <div class="container">
+            <h1>Humidity</h1>        
+            <p id="humidity"></p>
+            <div id="drop-icon">
+                <div class="droplet"></div>
+                <div class="droplet"></div>
+                <div class="droplet"></div>
+            </div>
+        </div>
         
         <script src="../script.js" async defer></script>
     </body>

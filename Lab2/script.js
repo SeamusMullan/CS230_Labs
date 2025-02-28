@@ -10,47 +10,30 @@ window.onload = (event) => {
 
     switch (page) {
         case 'index.html':
-            // Do nothing on the index page
+        case '':
+            // Handle the index page - ensure submit button exists
+            if (document.getElementById('submit-button')) {
+                document.getElementById('submit-button').addEventListener('click', () => {
+                    const cityName = document.getElementById('city-input').value;
+                    if (cityName) {
+                        updateWeather(cityName);
+                    } else {
+                        alert('Please enter a city name.');
+                    }
+                });
+            }
             break;
 
         default:
-            // if were on any other page, load from the local storage.
+            // if we're on any other page, load from the local storage.
             populateFromLocalStorage();
             break;
     }
-
-  };
-
-// Make the submit button fetch the weather for the specified city
-// if we dont get a valid city, the later functions will say this.
-
-document.getElementById('submit-button').addEventListener('click', () => {
-    const cityName = document.getElementById('city-input').value;
-    if (cityName) {
-        updateWeather(cityName);
-    } else {
-        alert('Please enter a city name.');
-    }
-});
-
+};
 
 // ========================================================================
 // Weather Function Fetching
 // ========================================================================
-
-/*
-Example json file:
-
-"dublin": {
-            "temperature": 12,
-            "humidity": 80,
-            "uv_index": 3,
-            "wind": {
-                "speed": 20,
-                "direction": "W"
-            }
-        },
-*/
 
 /**
  * Fetches weather data for the specified city.
@@ -78,9 +61,9 @@ function updateWeather(cityName) {
 function populateFromLocalStorage(){
     try{
         let data = JSON.parse(localStorage.getItem('weatherData'));
-        console.log("Local Storage Data: " + data);
+        console.log("Local Storage Data: ", data);
         let cityName = localStorage.getItem('cityName');
-        console.log("Local Storage cityName: " + cityName);
+        console.log("Local Storage cityName: ", cityName);
         if (!data || !cityName) {
             throw new Error('Data or cityName not found in localStorage');
         }
@@ -97,32 +80,39 @@ function populateCityInfo(data, cityName) {
     );
   
     if (cityData) {
-      console.log(cityData);
+      console.log("Found city data:", cityData);
 
       const page = window.location.pathname.split('/').pop();
+      
+      // Get elements or set fallbacks if they don't exist
+      const tempElement = document.getElementById('temperature');
+      const humidElement = document.getElementById('humidity');
+      const uvElement = document.getElementById('uv');
+      const windElement = document.getElementById('wind');
 
-      switch(page){
+      switch(page) {
         case '':
-            // update all for testing
-            document.getElementById('temperature').innerText = cityData.temperatureCelsius + '°C';
-            document.getElementById('humidity').innerText = cityData.humidity * 100 + '% Humidity';
-            document.getElementById('uv').innerText = cityData.uvIndex + ' UV';
-            document.getElementById('wind').innerText = cityData.windSpeed;
+        case 'index.html':
+            // Update all elements for the index page
+            if (tempElement) tempElement.innerText = cityData.temperatureCelsius + '°C';
+            if (humidElement) humidElement.innerText = cityData.humidity * 100 + '% Humidity';
+            if (uvElement) uvElement.innerText = cityData.uvIndex + ' UV';
+            if (windElement) windElement.innerText = cityData.windSpeed + ' km/h';
             break;
         case 'temperature.html':
-            document.getElementById('temperature').innerText = cityData.temperatureCelsius + '°C';
+            if (tempElement) tempElement.innerText = cityData.temperatureCelsius + '°C';
             break;
         case 'humidity.html':
-            document.getElementById('humidity').innerText = cityData.humidity * 100 + '% Humidity';
+            if (humidElement) humidElement.innerText = cityData.humidity * 100 + '% Humidity';
             break;
         case 'uv.html':
-            document.getElementById('uv').innerText = cityData.uvIndex + ' UV';
+            if (uvElement) uvElement.innerText = cityData.uvIndex + ' UV';
             break;
         case 'wind.html':
-            document.getElementById('wind').innerText = cityData.windSpeed;
+            if (windElement) windElement.innerText = cityData.windSpeed + ' km/h';
             break;
         default:
-            console.error('Page not specified, this should not happen.');
+            console.log('Page not specified: ' + page);
             break;
       }
   
@@ -131,57 +121,129 @@ function populateCityInfo(data, cityName) {
     } else {
       // The city doesn't exist in the data
       console.error('City not found in data.');
-      document.getElementById('uv').innerText = 'City not found in JSON';
-      document.getElementById('temperature').innerText = 'City not found in JSON';
-      document.getElementById('humidity').innerText = 'City not found in JSON';
-      document.getElementById('wind').innerText = 'City not found in JSON';
+      
+      // Get elements or set fallbacks if they don't exist
+      const tempElement = document.getElementById('temperature');
+      const humidElement = document.getElementById('humidity');
+      const uvElement = document.getElementById('uv');
+      const windElement = document.getElementById('wind');
+      
+      const errorMessage = 'City not found in data';
+      
+      if (tempElement) tempElement.innerText = errorMessage;
+      if (humidElement) humidElement.innerText = errorMessage;
+      if (uvElement) uvElement.innerText = errorMessage;
+      if (windElement) windElement.innerText = errorMessage;
     }
 }
 
 function toggleTemperature() {
     const temp = document.getElementById('temperature');
     
+    if (!temp) {
+        console.error('Temperature element not found');
+        return;
+    }
+    
     const currentTemp = temp.innerText;
     if (!currentTemp) {
       try{
-        temp = JSON.parse(localStorage.getItem('temperature'));
-      } catch (error) {
-        console.error('Error fetching data:', error);
-      }
-
-        if (!temp) {
-            console.error('Temperature not found in localStorage');
-            return;
+        const storedTemp = localStorage.getItem('temperature');
+        if (storedTemp) {
+          temp.innerText = storedTemp;
         }
+      } catch (error) {
+        console.error('Error fetching temperature:', error);
+        return;
+      }
     }
     
     const tempValue = parseFloat(currentTemp);
+    if (isNaN(tempValue)) {
+        console.error('Invalid temperature value');
+        return;
+    }
+    
     if (currentTemp.includes('°C')) {
       // Convert to Fahrenheit
       const fahrenheit = (tempValue * 9) / 5 + 32;
-      temp.innerText = `${fahrenheit.toFixed(2)}°F`;
+      temp.innerText = `${fahrenheit.toFixed(1)}°F`;
     } else {
       // Convert to Celsius
       const celsius = ((tempValue - 32) * 5) / 9;
-      temp.innerText = `${celsius.toFixed(2)}°C`;
+      temp.innerText = `${celsius.toFixed(1)}°C`;
     }
 }
 
 function updateStyles(data){
-    // using weather data, update the styles of the page based on the weather itself.
-    let weatherData = JSON.parse(localStorage.getItem('weatherData'));
-    
+    // Using weather data, update the styles of the page based on the weather itself
     const temperature = data.temperatureCelsius;
     const humidity = data.humidity;
     const uv = data.uvIndex;
     const wind = data.windSpeed;
-
-    // Temperature
     
+    const page = window.location.pathname.split('/').pop();
 
-    // UV Index
+    // Temperature styling
+    if (page === 'temperature.html' || page === '' || page === 'index.html') {
+        const bodyElement = document.body;
+        bodyElement.classList.remove('temp-cold', 'temp-moderate', 'temp-hot');
+        
+        if (temperature < 10) {
+            bodyElement.classList.add('temp-cold');
+        } else if (temperature < 25) {
+            bodyElement.classList.add('temp-moderate');
+        } else {
+            bodyElement.classList.add('temp-hot');
+        }
+        
+        // Update thermometer height if it exists
+        const thermometer = document.getElementById('thermometer');
+        if (thermometer) {
+            const thermometerFill = thermometer.querySelector('::before');
+            // Thermometer is styled using CSS pseudo-elements
+        }
+    }
 
-    // Humidity
+    // Humidity styling
+    if (page === 'humidity.html' || page === '' || page === 'index.html') {
+        const bodyElement = document.body;
+        bodyElement.classList.remove('humid-low', 'humid-moderate', 'humid-high');
+        
+        if (humidity < 0.3) {
+            bodyElement.classList.add('humid-low');
+        } else if (humidity < 0.7) {
+            bodyElement.classList.add('humid-moderate');
+        } else {
+            bodyElement.classList.add('humid-high');
+        }
+    }
 
-    // Wind
+    // UV Index styling
+    if (page === 'uv.html' || page === '' || page === 'index.html') {
+        const bodyElement = document.body;
+        bodyElement.classList.remove('uv-low', 'uv-moderate', 'uv-high');
+        
+        if (uv < 3) {
+            bodyElement.classList.add('uv-low');
+        } else if (uv < 6) {
+            bodyElement.classList.add('uv-moderate');
+        } else {
+            bodyElement.classList.add('uv-high');
+        }
+    }
+
+    // Wind styling
+    if (page === 'wind.html' || page === '' || page === 'index.html') {
+        const bodyElement = document.body;
+        bodyElement.classList.remove('wind-calm', 'wind-moderate', 'wind-strong');
+        
+        if (wind < 10) {
+            bodyElement.classList.add('wind-calm');
+        } else if (wind < 20) {
+            bodyElement.classList.add('wind-moderate');
+        } else {
+            bodyElement.classList.add('wind-strong');
+        }
+    }
 }
