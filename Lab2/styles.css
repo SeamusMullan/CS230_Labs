@@ -308,7 +308,7 @@ body.uv {
 
 /* Wind page styles */
 body.wind {
-  background: linear-gradient(135deg, #f5f7fa, #c3cfe2);
+  background: linear-gradient(135deg, #e8eaf6, #c5cae9); /* Changed to a slightly different blue */
 }
 
 .wind-calm {
