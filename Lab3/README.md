@@ -2,7 +2,7 @@
 
 ## Structure
 
-### Frontend
+### Frontend
 - Uses React for fronted ui
 - Includes custom components for all relevant elements of this app (see project-description.md)
 
