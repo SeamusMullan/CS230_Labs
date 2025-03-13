@@ -1,0 +1,13 @@
+.albums-container {
+    max-width: 800px;
+    margin: 0 auto;
+  }
+  
+  .response-message {
+    margin-top: 1rem;
+    padding: 0.75rem;
+    background-color: #2c2c2c;
+    border-radius: 4px;
+    border-left: 4px solid #ff5500;
+  }
+  
