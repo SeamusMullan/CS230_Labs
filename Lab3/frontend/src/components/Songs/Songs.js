@@ -7,8 +7,8 @@ const Songs = () => {
   const [songs, setSongs] = useState([]);
   const [formData, setFormData] = useState({
     name: '',
-    releaseYear: '',
-    album: ''
+    monthlyListeners: '',
+    genre: ''
   });
   const [updateId, setUpdateId] = useState(null);
   const [responseMessage, setResponseMessage] = useState('');
@@ -41,11 +41,11 @@ const Songs = () => {
     e.preventDefault();
     try {
       const response = await axios.post(apiUrl, formData);
-      setResponseMessage('Song created successfully!');
-      setFormData({ name: '', releaseYear: '', album: '' });
+      setResponseMessage('Artist created successfully!');
+      setFormData({ name: '', monthlyListeners: '', genre: '' });
     } catch (error) {
-      console.error('Error creating song:', error);
-      setResponseMessage('Error creating song. Please try again.');
+      console.error('Error creating artist:', error);
+      setResponseMessage('Error creating artist. Please try again.');
     }
   };
 
@@ -53,33 +53,33 @@ const Songs = () => {
     e.preventDefault();
     try {
       const response = await axios.put(`${apiUrl}/${updateId}`, formData);
-      setResponseMessage('Song updated successfully!');
-      setFormData({ name: '', releaseYear: '', album: '' });
+      setResponseMessage('Artist updated successfully!');
+      setFormData({ name: '', monthlyListeners: '', genre: '' });
       setUpdateId(null);
     } catch (error) {
-      console.error('Error updating song:', error);
-      setResponseMessage('Error updating song. Please try again.');
+      console.error('Error updating artist:', error);
+      setResponseMessage('Error updating artist. Please try again.');
     }
   };
 
   const handleDelete = async (id) => {
     try {
       await axios.delete(`${apiUrl}/${id}`);
-      setSongs(songs.filter(song => song.id !== id));
-      setResponseMessage('Song deleted successfully!');
+      setSongs(songs.filter(artist => artist.id !== id));
+      setResponseMessage('Artist deleted successfully!');
     } catch (error) {
-      console.error('Error deleting song:', error);
-      setResponseMessage('Error deleting song. Please try again.');
+      console.error('Error deleting artist:', error);
+      setResponseMessage('Error deleting artist. Please try again.');
     }
   };
 
-  const prepareUpdate = (song) => {
+  const prepareUpdate = (artist) => {
     setFormData({
-      name: song.name,
-      releaseYear: song.releaseYear,
-      album: song.album
+      name: artist.name,
+      monthlyListeners: artist.monthlyListeners,
+      genre: artist.genre
     });
-    setUpdateId(song.id);
+    setUpdateId(artist.id);
     setActiveTab('update');
   };
 
@@ -110,10 +110,10 @@ const Songs = () => {
 
       {activeTab === 'create' && (
         <div className="form-container">
-          <h2>Create New Song</h2>
+          <h2>Create New Artist</h2>
           <form onSubmit={handleCreate}>
             <div className="form-group">
-              <label htmlFor="name">Song Name</label>
+              <label htmlFor="name">Artist Name</label>
               <input
                 type="text"
                 id="name"
@@ -126,42 +126,42 @@ const Songs = () => {
             </div>
             
             <div className="form-group">
-              <label htmlFor="releaseYear">Release Year</label>
+              <label htmlFor="monthlyListeners">Monthly Listeners</label>
               <input
                 type="number"
-                id="releaseYear"
-                name="releaseYear"
+                id="monthlyListeners"
+                name="monthlyListeners"
                 className="form-control"
-                value={formData.releaseYear}
+                value={formData.monthlyListeners}
                 onChange={handleInputChange}
                 required
               />
             </div>
             
             <div className="form-group">
-              <label htmlFor="album">Album</label>
+              <label htmlFor="genre">Genre</label>
               <input
                 type="text"
-                id="album"
-                name="album"
+                id="genre"
+                name="genre"
                 className="form-control"
-                value={formData.album}
+                value={formData.genre}
                 onChange={handleInputChange}
                 required
               />
             </div>
             
-            <button type="submit" className="btn btn-primary">Create Song</button>
+            <button type="submit" className="btn btn-primary">Create Artist</button>
           </form>
         </div>
       )}
 
       {activeTab === 'update' && (
         <div className="form-container">
-          <h2>Update Song</h2>
+          <h2>Update Artist</h2>
           <form onSubmit={handleUpdate}>
             <div className="form-group">
-              <label htmlFor="name">Song Name</label>
+              <label htmlFor="name">Artist Name</label>
               <input
                 type="text"
                 id="name"
@@ -174,56 +174,55 @@ const Songs = () => {
             </div>
             
             <div className="form-group">
-              <label htmlFor="releaseYear">Release Year</label>
+              <label htmlFor="monthlyListeners">Monthly Listeners</label>
               <input
                 type="number"
-                id="releaseYear"
-                name="releaseYear"
+                id="monthlyListeners"
+                name="monthlyListeners"
                 className="form-control"
-                value={formData.releaseYear}
+                value={formData.monthlyListeners}
                 onChange={handleInputChange}
                 required
               />
             </div>
             
             <div className="form-group">
-              <label htmlFor="album">Album</label>
+              <label htmlFor="genre">Genre</label>
               <input
                 type="text"
-                id="album"
-                name="album"
+                id="genre"
+                name="genre"
                 className="form-control"
-                value={formData.album}
+                value={formData.genre}
                 onChange={handleInputChange}
                 required
               />
             </div>
             
-            <button type="submit" className="btn btn-primary">Update Song</button>
+            <button type="submit" className="btn btn-primary">Update Artist</button>
           </form>
         </div>
       )}
 
       {activeTab === 'retrieve' && (
-        <div className="data-container">
-          <div className="data-display"></div>
+        <div className="data-display">
           <h2 className="data-header">All Songs</h2>
           {songs.length > 0 ? (
-            songs.map(song => (
-              <div className="data-item" key={song.id}>
-                <h3>{song.name}</h3>
-                <p><strong>Release Year:</strong> {song.releaseYear}</p>
-                <p><strong>Album:</strong> {song.album}</p>
+            songs.map(artist => (
+              <div className="data-item" key={artist.id}>
+                <h3>{artist.name}</h3>
+                <p><strong>Monthly Listeners:</strong> {artist.monthlyListeners}</p>
+                <p><strong>Genre:</strong> {artist.genre}</p>
                 <div className="action-buttons">
                   <button 
                     className="btn btn-secondary"
-                    onClick={() => prepareUpdate(song)}
+                    onClick={() => prepareUpdate(artist)}
                   >
                     Edit
                   </button>
                   <button 
                     className="btn btn-secondary"
-                    onClick={() => handleDelete(song.id)}
+                    onClick={() => handleDelete(artist.id)}
                   >
                     Delete
                   </button>
@@ -246,4 +245,3 @@ const Songs = () => {
 };
 
 export default Songs;
-

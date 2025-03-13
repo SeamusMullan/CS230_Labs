@@ -14,9 +14,9 @@ const songRoutes = require('./routes/songRoutes');
 const albumRoutes = require('./routes/albumRoutes');
 
 // Use routes
-// app.use('/api/artists', artistRoutes);
-// app.use('/api/songs', songRoutes);
-// app.use('/api/albums', albumRoutes);
+app.use('/api/artists', artistRoutes);
+app.use('/api/songs', songRoutes);
+app.use('/api/albums', albumRoutes);
 
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);
