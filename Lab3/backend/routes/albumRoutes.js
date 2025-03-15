@@ -1,73 +1,75 @@
 const express = require('express');
-const { Client } = require('pg');
+const mysql = require('mysql');
 
 const router = express.Router();
 
-// Function to create a new database client
-function createClient() {
-    return new Client({
-        user: process.env.DB_USER,
-        host: process.env.DB_HOST,
-        database: process.env.DB_NAME,
-        password: process.env.DB_PASSWORD,
-        port: process.env.DB_PORT,
-        ssl: process.env.NODE_ENV === 'production' ? { rejectUnauthorized: false } : false
-    });
-}
+// Create MySQL connection
+const db = mysql.createConnection({
+    host: process.env.DB_HOST,
+    user: process.env.DB_USER,
+    password: process.env.DB_PASSWORD,
+    database: process.env.DB_NAME,
+    // port: process.env.DB_PORT,
+});
+
+// Connect to database
+db.connect(err => {
+    if (err) {
+        console.error('Error connecting to MySQL:', err);
+    } else {
+        console.log('Connected to MySQL database');
+    }
+});
 
 // GET all albums
-router.get('/', async (req, res) => {
-    const client = createClient();
-    try {
-        await client.connect();
-        const result = await client.query('SELECT * FROM albums');
-        res.json(result.rows);
-    } catch (err) {
-        console.error('Database error:', err);
-        res.status(500).json({ error: 'Internal server error' });
-    } finally {
-        await client.end();
-    }
+router.get('/', (req, res) => {
+    db.query('SELECT * FROM Albums', (err, results) => {
+        if (err) {
+            console.error('Database error:', err);
+            return res.status(500).json({ error: 'Internal server error' });
+        }
+        res.json(results);
+    });
 });
 
 // GET album by id
-router.get('/:id', async (req, res) => {
-    const client = createClient();
-    try {
-        await client.connect();
-        const { id } = req.params;
-        const result = await client.query('SELECT * FROM albums WHERE id = $1', [id]);
+router.get('/:id', (req, res) => {
+    const { id } = req.params;
+    db.query('SELECT * FROM Albums WHERE id = ?', [id], (err, results) => {
+        if (err) {
+            console.error('Database error:', err);
+            return res.status(500).json({ error: 'Internal server error' });
+        }
         
-        if (result.rows.length === 0) {
+        if (results.length === 0) {
             return res.status(404).json({ error: 'Album not found' });
         }
         
-        res.json(result.rows[0]);
-    } catch (err) {
-        console.error('Database error:', err);
-        res.status(500).json({ error: 'Internal server error' });
-    } finally {
-        await client.end();
-    }
+        res.json(results[0]);
+    });
 });
 
 // POST new album
-router.post('/', async (req, res) => {
-    const client = createClient();
-    try {
-        await client.connect();
-        const { title, artist, year, genre } = req.body;
-        const result = await client.query(
-            'INSERT INTO albums (title, artist, year, genre) VALUES ($1, $2, $3, $4) RETURNING *',
-            [title, artist, year, genre]
-        );
-        res.status(201).json(result.rows[0]);
-    } catch (err) {
-        console.error('Database error:', err);
-        res.status(500).json({ error: 'Internal server error' });
-    } finally {
-        await client.end();
-    }
+router.post('/', (req, res) => {
+    const { title, artist, year, genre } = req.body;
+    db.query(
+        'INSERT INTO Albums (title, artist, year, genre) VALUES (?, ?, ?, ?)',
+        [title, artist, year, genre],
+        (err, result) => {
+            if (err) {
+                console.error('Database error:', err);
+                return res.status(500).json({ error: 'Internal server error' });
+            }
+            
+            db.query('SELECT * FROM Albums WHERE id = ?', [result.insertId], (err, results) => {
+                if (err) {
+                    console.error('Database error:', err);
+                    return res.status(500).json({ error: 'Internal server error' });
+                }
+                res.status(201).json(results[0]);
+            });
+        }
+    );
 });
 
 module.exports = router;

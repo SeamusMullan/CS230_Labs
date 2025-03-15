@@ -12,7 +12,7 @@ const pool = new Pool({
 // GET all artists
 router.get('/', async (req, res) => {
     try {
-        const result = await pool.query('SELECT * FROM artists');
+        const result = await pool.query('SELECT * FROM Artists');
         res.json(result.rows);
     } catch (err) {
         console.error('Database error:', err);
@@ -24,7 +24,7 @@ router.get('/', async (req, res) => {
 router.get('/:id', async (req, res) => {
     try {
         const { id } = req.params;
-        const result = await pool.query('SELECT * FROM artists WHERE id = $1', [id]);
+        const result = await pool.query('SELECT * FROM Artists WHERE id = $1', [id]);
         
         if (result.rows.length === 0) {
             return res.status(404).json({ error: 'Artist not found' });
