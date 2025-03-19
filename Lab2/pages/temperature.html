@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Temperature</title>
+        <meta name="description" content="Temperature information page">
+        <link rel="stylesheet" href="../styles.css">
+    </head>
+    <body class="temperature">
+        <nav class="navbar">
+            <a href="../index.html">Home</a>
+            <a href="humidity.html">Humidity</a>
+            <a href="uv.html">UV Index</a>
+            <a href="wind.html">Wind Speed</a>
+        </nav>
+        
+        <div class="container">
+            <h1>Temperature</h1>        
+            <p id="temperature"></p>
+            <button id="toggle-button" onclick="toggleTemperature()">Toggle Fahrenheit/Celsius</button>
+            <div id="thermometer"></div>
+        </div>
+        
+        <script src="../script.js" async defer></script>
+    </body>
+</html>

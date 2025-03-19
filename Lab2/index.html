@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Lab 2</title>
+        <link rel="stylesheet" href="styles.css">
+    </head>
+    <body>
+        
+        <h1>Lab 2</h1>
+            
+        <!-- temp, humidity, uv-map, wind -->
+            
+            <nav class="navbar">
+            <!-- <a href="index.html">Home</a> -->
+                <a href="pages/temperature.html">Temperature</a>
+                <a href="pages/humidity.html">Humidity</a>
+                <a href="pages/uv.html">UV Index</a>
+                <a href="pages/wind.html">Wind Speed</a>
+            </nav>
+            
+            <!-- Input city name -->
+
+        <label for="city-input">City Name:</label>
+        <input type="text" id="city-input" placeholder="Enter city name">
+                <button id="submit-button">Submit</button>
+
+        <div class="weather-card">
+            <h2>Current Weather</h2>
+            <p id="temperature">--°C</p>
+            <p id="humidity">--% Humidity</p>
+            <p id="uv">-- UV</p>
+            <p id="wind">--km/h</p>
+        </div>
+            
+        
+        <script src="script.js" async defer></script>
+    </body>
+</html>

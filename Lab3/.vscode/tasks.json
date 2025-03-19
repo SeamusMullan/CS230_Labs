@@ -1,0 +1,36 @@
+{
+    "version": "2.0.0",
+    "tasks": [
+      {
+        "label": "Launch Postgres",
+        "type": "shell",
+        "command": "chmod +x ./launch_postgres_mac.sh && ./launch_postgres_mac.sh",
+        "presentation": {
+          "panel": "dedicated",
+          "showReuseMessage": false
+        },
+        "problemMatcher": []
+      },
+      {
+        "label": "Launch Backend",
+        "type": "shell",
+        "command": "cd backend && npx nodemon server.js",
+        "presentation": {
+          "panel": "dedicated",
+          "showReuseMessage": false
+        },
+        "problemMatcher": []
+      },
+      {
+        "label": "Launch Frontend",
+        "type": "shell",
+        "command": "cd frontend && npm start",
+        "presentation": {
+          "panel": "dedicated",
+          "showReuseMessage": false
+        },
+        "problemMatcher": []
+      }
+    ]
+  }
+  

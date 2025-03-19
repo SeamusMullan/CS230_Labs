@@ -1,0 +1,38 @@
+[
+    {
+      "cityName": "Dublin",
+      "temperatureCelsius": 20,
+      "humidity": 0.5,
+      "uvIndex": 20,
+      "windSpeed": "30km"
+    },
+    {
+      "cityName": "New York",
+      "temperatureCelsius": 6,
+      "humidity": 0.76,
+      "uvIndex": 2,
+      "windSpeed": "9km"
+    },
+    {
+      "cityName": "Tokyo",
+      "temperatureCelsius": 11,
+      "humidity": 0.45,
+      "uvIndex": 2,
+      "windSpeed": "19km"
+    },
+    {
+      "cityName": "Sydney",
+      "temperatureCelsius": 25,
+      "humidity": 0.78,
+      "uvIndex": 11,
+      "windSpeed": "18km"
+    },
+    {
+      "cityName": "Berlin",
+      "temperatureCelsius": 9,
+      "humidity": 0.84,
+      "uvIndex": 2,
+      "windSpeed": "25km"
+    }
+  ]
+  

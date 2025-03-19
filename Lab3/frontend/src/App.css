@@ -1,0 +1,222 @@
+.App {
+  text-align: center;
+  background-color: #121212;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  color: #ffffff;
+}
+
+.App-logo {
+  height: 40vmin;
+  pointer-events: none;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .App-logo {
+    animation: App-logo-spin infinite 20s linear;
+  }
+}
+
+.App-header {
+  background-color: #0f0f0f;
+  padding: 1rem;
+  border-bottom: 1px solid #333;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.App-header h1 {
+  margin: 0;
+  color: #ff5500;
+  font-size: 2rem;
+  font-weight: bold;
+}
+
+.nav-links {
+  display: flex;
+  list-style: none;
+  margin: 1rem 0 0;
+  padding: 0;
+  gap: 2rem;
+}
+
+.nav-links li a {
+  color: #ffffff;
+  text-decoration: none;
+  font-weight: 600;
+  transition: color 0.3s;
+}
+
+.nav-links li a:hover {
+  color: #ff5500;
+}
+
+.App-content {
+  flex: 1;
+  padding: 2rem;
+  max-width: 1200px;
+  margin: 0 auto;
+  width: 100%;
+}
+
+.App-footer {
+  background-color: #0f0f0f;
+  padding: 1rem;
+  border-top: 1px solid #333;
+  font-size: 0.9rem;
+  color: #888;
+}
+
+/* Card styles for home page */
+.card-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 2rem;
+  margin-top: 2rem;
+}
+
+.card {
+  background-color: #1e1e1e;
+  border-radius: 8px;
+  padding: 1.5rem;
+  text-align: center;
+  transition: transform 0.3s, box-shadow 0.3s;
+  cursor: pointer;
+}
+
+.card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
+}
+
+.card h2 {
+  color: #ff5500;
+  margin-bottom: 1rem;
+}
+
+/* Form styles */
+.form-container {
+  background: #1e1e1e;
+  padding: 2rem;
+  border-radius: 8px;
+  margin-bottom: 2rem;
+}
+
+.form-group {
+  margin-bottom: 1rem;
+  text-align: left;
+  padding-left: 10%;
+  padding-right: 10%;
+}
+
+.form-group label {
+  display: block;
+  margin-bottom: 0.5rem;
+  font-weight: 600;
+}
+
+.form-control {
+  width: 100%;
+  padding: 0.75rem;
+  background: #2c2c2c;
+  border: 1px solid #444;
+  border-radius: 4px;
+  color: #fff;
+}
+
+.btn {
+  padding: 0.75rem 1.5rem;
+  border: none;
+  border-radius: 4px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.btn-primary {
+  background-color: #ff5500;
+  color: #fff;
+}
+
+.btn-primary:hover {
+  background-color: #ff7730;
+}
+
+.btn-secondary {
+  background-color: #333;
+  color: #fff;
+  margin-left: 0.5rem;
+}
+
+.btn-secondary:hover {
+  background-color: #444;
+}
+
+/* Data display section */
+.data-display {
+  background: #1e1e1e;
+  padding: 1rem;
+  border-radius: 8px;
+  margin-top: 2rem;
+  text-align: left;
+}
+
+.data-item {
+  background: #2c2c2c;
+  border-radius: 4px;
+  padding: 1rem;
+  margin-bottom: 1rem;
+  border-left: 4px solid #ff5500;
+}
+
+.data-item h3 {
+  margin-top: 0;
+  color: #ff5500;
+}
+
+.data-header {
+  margin-bottom: 1rem;
+  color: #ff5500;
+}
+
+.action-buttons {
+  margin-top: 1rem;
+  display: flex;
+  gap: 0.5rem;
+}
+
+/* Tabs for CRUD operations */
+.crud-tabs {
+  display: flex;
+  margin-bottom: 1.5rem;
+  border-bottom: 1px solid #444;
+}
+
+.crud-tab {
+  padding: 0.75rem 1.5rem;
+  background: transparent;
+  border: none;
+  color: #ccc;
+  cursor: pointer;
+  font-weight: 600;
+}
+
+.crud-tab.active {
+  color: #ff5500;
+  border-bottom: 2px solid #ff5500;
+}
+
+.App-link {
+  color: #61dafb;
+}
+
+@keyframes App-logo-spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}

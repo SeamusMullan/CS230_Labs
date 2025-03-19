@@ -1,0 +1,429 @@
+/* Base styles */
+:root {
+  --primary-color: #2c3e50;
+  --accent-color: #3498db;
+  --background-color: #f8f9fa;
+  --text-color: #333;
+  --shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  --transition: all 0.3s ease;
+  
+  /* Weather condition colors */
+  --hot-color: #e74c3c;
+  --cold-color: #3498db;
+  --humid-color: #3498db;
+  --dry-color: #f39c12;
+  --high-uv-color: #e74c3c;
+  --low-uv-color: #2ecc71;
+  --strong-wind-color: #7f8c8d;
+  --light-wind-color: #95a5a6;
+}
+
+body {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background-color: var(--background-color);
+  color: var(--text-color);
+  margin: 0;
+  padding: 0;
+  line-height: 1.6;
+  text-align: center; /* Center all text */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  min-height: 100vh;
+}
+
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+}
+
+h1 {
+  color: var(--primary-color);
+  text-align: center;
+  margin-bottom: 30px;
+  font-weight: 500;
+  width: 100%;
+}
+
+/* Navigation styles */
+.navbar {
+  background-color: var(--primary-color);
+  padding: 15px 0;
+  display: flex;
+  justify-content: center;
+  margin-bottom: 30px;
+  box-shadow: var(--shadow);
+  width: 100%;
+}
+
+.navbar a {
+  color: white;
+  text-decoration: none;
+  padding: 10px 20px;
+  margin: 0 10px;
+  border-radius: 5px;
+  transition: var(--transition);
+}
+
+.navbar a:hover {
+  background-color: rgba(255, 255, 255, 0.1);
+}
+
+/* Form elements */
+label {
+  display: block;
+  margin-bottom: 8px;
+  font-weight: 500;
+  text-align: center;
+}
+
+input[type="text"] {
+  width: 100%;
+  max-width: 300px;
+  padding: 12px 15px;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  font-size: 16px;
+  transition: var(--transition);
+  margin: 0 auto;
+  display: block;
+}
+
+input[type="text"]:focus {
+  border-color: var(--accent-color);
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.2);
+}
+
+button {
+  background-color: var(--accent-color);
+  color: white;
+  border: none;
+  padding: 12px 20px;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: var(--transition);
+  font-size: 16px;
+  margin: 10px auto;
+  display: block;
+}
+
+button:hover {
+  background-color: #2980b9;
+  transform: translateY(-2px);
+}
+
+/* Weather card styles */
+.weather-card {
+  background-color: white;
+  border-radius: 10px;
+  box-shadow: var(--shadow);
+  padding: 30px;
+  margin: 30px auto;
+  max-width: 600px;
+  text-align: center;
+  transition: var(--transition);
+}
+
+/* Weather data display */
+#temperature, #humidity, #uv, #wind {
+  font-size: 3rem;
+  font-weight: 700;
+  margin: 20px auto;
+  transition: var(--transition);
+  text-align: center;
+}
+
+/* Temperature page styles */
+body.temperature {
+  background: linear-gradient(135deg, #f5f7fa, #c3cfe2);
+}
+
+.temp-cold {
+  background: linear-gradient(135deg, #e0f7fa, #b3e5fc);
+  color: var(--cold-color);
+}
+
+.temp-moderate {
+  background: linear-gradient(135deg, #fffde7, #fff9c4);
+  color: #ff9800;
+}
+
+.temp-hot {
+  background: linear-gradient(135deg, #fff5f5, #ffccbc);
+  color: var(--hot-color);
+}
+
+#thermometer {
+  height: 200px;
+  width: 60px;
+  border-radius: 30px;
+  border: 5px solid #ccc;
+  margin: 30px auto;
+  position: relative;
+  background: #fff;
+  overflow: hidden;
+}
+
+#thermometer::before {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 60%;
+  background-color: var(--accent-color);
+  transition: height 0.5s ease, background-color 0.5s ease;
+}
+
+.temp-cold #thermometer::before {
+  height: 30%;
+  background-color: var(--cold-color);
+}
+
+.temp-moderate #thermometer::before {
+  height: 60%;
+  background-color: #ff9800;
+}
+
+.temp-hot #thermometer::before {
+  height: 90%;
+  background-color: var(--hot-color);
+}
+
+/* Humidity page styles */
+body.humidity {
+  background: linear-gradient(135deg, #e0f7fa, #b3e5fc);
+}
+
+.humid-high {
+  background: linear-gradient(135deg, #e1f5fe, #b3e5fc);
+  color: var(--humid-color);
+}
+
+.humid-moderate {
+  background: linear-gradient(135deg, #e8f5e9, #c8e6c9);
+  color: #4caf50;
+}
+
+.humid-low {
+  background: linear-gradient(135deg, #fff8e1, #ffecb3);
+  color: var(--dry-color);
+}
+
+/* Droplets container */
+#drop-icon {
+  display: flex;
+  justify-content: center;
+  margin: 30px auto;
+  gap: 20px;
+  height: 150px;
+}
+
+/* Individual droplet */
+.droplet {
+  width: 60px;
+  height: 80px;
+  background: var(--humid-color);
+  border-radius: 50% 50% 50% 50% / 60% 60% 40% 40%;
+  position: relative;
+  transform: rotate(135deg);
+  box-shadow: inset 10px -10px 20px rgba(0, 0, 0, 0.2);
+  display: inline-block;
+}
+
+/* Show 1 droplet for low humidity */
+.humid-low #drop-icon .droplet:nth-child(2),
+.humid-low #drop-icon .droplet:nth-child(3) {
+  display: none;
+}
+
+.humid-low #drop-icon .droplet {
+  background: var(--dry-color);
+}
+
+/* Show 2 droplets for moderate humidity */
+.humid-moderate #drop-icon .droplet:nth-child(3) {
+  display: none;
+}
+
+/* Show all 3 droplets for high humidity */
+.humid-high #drop-icon .droplet {
+  background: var(--humid-color);
+}
+
+/* UV page styles */
+body.uv {
+  background: linear-gradient(135deg, #fafafa, #f5f5f5);
+}
+
+.uv-low {
+  background: linear-gradient(135deg, #e8f5e9, #c8e6c9);
+  color: var(--low-uv-color);
+}
+
+.uv-moderate {
+  background: linear-gradient(135deg, #fff8e1, #ffecb3);
+  color: #ff9800;
+}
+
+.uv-high {
+  background: linear-gradient(135deg, #fbe9e7, #ffccbc);
+  color: var(--high-uv-color);
+}
+
+#uv-icon {
+  width: 120px;
+  height: 120px;
+  border-radius: 50%;
+  background: #ffeb3b;
+  margin: 30px auto;
+  box-shadow: 0 0 40px rgba(255, 235, 59, 0.8);
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+#uv-icon::after {
+  content: "☀️";
+  font-size: 50px;
+  transform: rotate(0deg);
+}
+
+.uv-high #uv-icon {
+  background: var(--high-uv-color);
+  box-shadow: 0 0 60px rgba(231, 76, 60, 0.8);
+}
+
+.uv-low #uv-icon {
+  background: var(--low-uv-color);
+  box-shadow: 0 0 30px rgba(46, 204, 113, 0.5);
+}
+
+/* Wind page styles */
+body.wind {
+  background: linear-gradient(135deg, #e8eaf6, #c5cae9); /* Changed to a slightly different blue */
+}
+
+.wind-calm {
+  background: linear-gradient(135deg, #e8f5e9, #c8e6c9);
+  color: #4caf50;
+}
+
+.wind-moderate {
+  background: linear-gradient(135deg, #e0f2f1, #b2dfdb);
+  color: #08645b;
+}
+
+.wind-strong {
+  background: linear-gradient(135deg, #eceff1, #cfd8dc);
+  color: var(--strong-wind-color);
+}
+
+#wind-icon {
+  width: 200px;
+  height: 100px;
+  margin: 30px auto;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 15px;
+}
+
+.arrow {
+  position: relative;
+  height: 10px;
+  background: var(--light-wind-color);
+  margin: 10px 0;
+  border-radius: 4px;
+}
+
+.arrow::after {
+  content: '';
+  position: absolute;
+  right: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 0;
+  height: 0;
+  border-top: 10px solid transparent;
+  border-bottom: 10px solid transparent;
+  border-left: 15px solid var(--light-wind-color);
+  margin-right: -15px;
+}
+
+.wind-calm .arrow:nth-child(1) {
+  width: 50%;
+}
+
+.wind-calm .arrow:nth-child(2),
+.wind-calm .arrow:nth-child(3) {
+  display: none;
+}
+
+.wind-moderate .arrow:nth-child(1) {
+  width: 60%;
+}
+
+.wind-moderate .arrow:nth-child(2) {
+  width: 75%;
+}
+
+.wind-moderate .arrow:nth-child(3) {
+  display: none;
+}
+
+.wind-strong .arrow:nth-child(1) {
+  width: 70%;
+}
+
+.wind-strong .arrow:nth-child(2) {
+  width: 85%;
+}
+
+.wind-strong .arrow:nth-child(3) {
+  width: 100%;
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+  .navbar {
+    flex-direction: column;
+  }
+  
+  .navbar a {
+    margin: 5px 0;
+  }
+  
+  .weather-card {
+    padding: 20px;
+  }
+  
+  #temperature, #humidity, #uv, #wind {
+    font-size: 2rem;
+  }
+}
+
+/* Animation for loading states */
+@keyframes pulse {
+  0% {
+    opacity: 0.6;
+  }
+  50% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0.6;
+  }
+}
+
+.loading {
+  animation: pulse 1.5s infinite;
+}
