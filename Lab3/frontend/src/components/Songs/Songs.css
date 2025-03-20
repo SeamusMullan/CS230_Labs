@@ -4,10 +4,55 @@
   }
   
   .response-message {
-    margin-top: 1rem;
-    padding: 0.75rem;
-    background-color: #2c2c2c;
-    border-radius: 4px;
-    border-left: 4px solid #ff5500;
+    margin-top: 1.5rem;
+    padding: 1rem;
+    background: rgba(226, 51, 255, 0.1);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border-radius: 8px;
+    border-left: 4px solid #e233ff;
+    animation: fadeIn 0.3s ease-in;
+    text-align: center;
   }
-  
+
+.songs-container {
+  max-width: 850px;
+  margin: 0 auto;
+}
+
+.songs-header {
+  margin-bottom: 2rem;
+  text-align: center;
+}
+
+.songs-title {
+  font-size: 2.5rem;
+  font-weight: 700;
+  margin-bottom: 0.5rem;
+  background: linear-gradient(90deg, #e233ff 0%, #69d9ff 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  letter-spacing: -0.5px;
+}
+
+.song-details {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.song-icon {
+  font-size: 2rem;
+  color: #69d9ff;
+  margin-right: 1rem;
+}
+
+.song-info {
+  flex: 1;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}

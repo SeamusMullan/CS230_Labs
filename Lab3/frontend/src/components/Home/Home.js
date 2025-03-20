@@ -5,35 +5,45 @@ import './Home.css';
 const Home = () => {
   return (
     <div className="home-container">
-      <h1>Welcome to MusicCloud</h1>
+      <div className="home-header">
+        <h1 className="home-title">Your Music Universe</h1>
+        <p className="home-subtitle">Discover, create, and enjoy your personal music collection</p>
+      </div>
+      
       <p className="home-intro">
-        Explore your favorite artists, discover new songs, and create your music collection.
+        Welcome to MusicCloud, where your musical journey begins. Explore your favorite artists, discover new songs, 
+        and organize your collection with our premium music experience.
       </p>
       
       <div className="card-container">
         <Link to="/artists" className="card-link">
           <div className="card">
+            <div className="card-icon">👩‍🎤</div>
             <h2>Artists</h2>
-            <p>Browse and manage your favorite artists</p>
-            <div className="card-icon">👨‍🎤</div>
+            <p>Browse and manage your favorite music creators</p>
           </div>
         </Link>
         
         <Link to="/songs" className="card-link">
           <div className="card">
-            <h2>Songs</h2>
-            <p>Discover and manage your music tracks</p>
             <div className="card-icon">🎵</div>
+            <h2>Songs</h2>
+            <p>Discover and organize your music library</p>
           </div>
         </Link>
         
         <Link to="/albums" className="card-link">
           <div className="card">
-            <h2>Albums</h2>
-            <p>Explore and organize albums collection</p>
             <div className="card-icon">💿</div>
+            <h2>Albums</h2>
+            <p>Explore complete collections from your favorite artists</p>
           </div>
         </Link>
+      </div>
+      
+      <div className="featured-section">
+        <h2>✨ Start Your Musical Journey</h2>
+        <p>Create your personal music database and enjoy a premium experience with our Apple Music-inspired interface.</p>
       </div>
     </div>
   );

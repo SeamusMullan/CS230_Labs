@@ -28,10 +28,10 @@ const Albums = () => {
     try {
       const response = await axios.get(apiUrl);
       setAlbums(response.data);
-      setResponseMessage(`${response.data.length} albums retrieved successfully`);
+      setResponseMessage(`✅ ${response.data.length} albums retrieved successfully`);
     } catch (error) {
       console.error('Error fetching albums:', error);
-      setResponseMessage('Error fetching albums. Please try again.');
+      setResponseMessage('❌ Error fetching albums. Please try again.');
     }
   };
 
@@ -64,11 +64,11 @@ const Albums = () => {
     e.preventDefault();
     try {
       const response = await axios.post(apiUrl, formData);
-      setResponseMessage('Album created successfully!');
+      setResponseMessage('✅ Album created successfully!');
       setFormData({ name: '', artist: '', releaseYear: '', numListens: '', songs: [] });
     } catch (error) {
       console.error('Error creating album:', error);
-      setResponseMessage('Error creating album. Please try again.');
+      setResponseMessage('❌ Error creating album. Please try again.');
     }
   };
 
@@ -76,12 +76,12 @@ const Albums = () => {
     e.preventDefault();
     try {
       const response = await axios.put(`${apiUrl}/${updateId}`, formData);
-      setResponseMessage('Album updated successfully!');
+      setResponseMessage('✅ Album updated successfully!');
       setFormData({ name: '', artist: '', releaseYear: '', numListens: '', songs: [] });
       setUpdateId(null);
     } catch (error) {
       console.error('Error updating album:', error);
-      setResponseMessage('Error updating album. Please try again.');
+      setResponseMessage('❌ Error updating album. Please try again.');
     }
   };
 
@@ -89,10 +89,10 @@ const Albums = () => {
     try {
       await axios.delete(`${apiUrl}/${id}`);
       setAlbums(albums.filter(album => album.id !== id));
-      setResponseMessage('Album deleted successfully!');
+      setResponseMessage('✅ Album deleted successfully!');
     } catch (error) {
       console.error('Error deleting album:', error);
-      setResponseMessage('Error deleting album. Please try again.');
+      setResponseMessage('❌ Error deleting album. Please try again.');
     }
   };
 
@@ -110,35 +110,37 @@ const Albums = () => {
 
   return (
     <div className="albums-container">
-      <h1>Albums</h1>
+      <div className="albums-header">
+        <h1 className="albums-title">💿 Albums</h1>
+      </div>
       
       <div className="crud-tabs">
         <button 
           className={`crud-tab ${activeTab === 'create' ? 'active' : ''}`}
           onClick={() => setActiveTab('create')}
         >
-          Create
+          ✨ Create
         </button>
         <button 
           className={`crud-tab ${activeTab === 'retrieve' ? 'active' : ''}`}
           onClick={() => setActiveTab('retrieve')}
         >
-          Retrieve
+          🔍 Browse
         </button>
         <button 
           className={`crud-tab ${activeTab === 'update' ? 'active' : ''}`}
           onClick={() => setActiveTab('update')}
         >
-          Update
+          ✏️ Edit
         </button>
       </div>
 
       {activeTab === 'create' && (
         <div className="form-container">
-          <h2>Create New Album</h2>
+          <h2>✨ Create New Album</h2>
           <form onSubmit={handleCreate}>
             <div className="form-group">
-              <label htmlFor="name">Album Name</label>
+              <label htmlFor="name">💿 Album Name</label>
               <input
                 type="text"
                 id="name"
@@ -146,12 +148,13 @@ const Albums = () => {
                 className="form-control"
                 value={formData.name}
                 onChange={handleInputChange}
+                placeholder="Enter album name"
                 required
               />
             </div>
             
             <div className="form-group">
-              <label htmlFor="artist">Artist</label>
+              <label htmlFor="artist">👤 Artist</label>
               <input
                 type="text"
                 id="artist"
@@ -159,12 +162,13 @@ const Albums = () => {
                 className="form-control"
                 value={formData.artist}
                 onChange={handleInputChange}
+                placeholder="Enter artist name"
                 required
               />
             </div>
             
             <div className="form-group">
-              <label htmlFor="releaseYear">Release Year</label>
+              <label htmlFor="releaseYear">📅 Release Year</label>
               <input
                 type="number"
                 id="releaseYear"
@@ -172,12 +176,13 @@ const Albums = () => {
                 className="form-control"
                 value={formData.releaseYear}
                 onChange={handleInputChange}
+                placeholder="Enter release year"
                 required
               />
             </div>
             
             <div className="form-group">
-              <label htmlFor="numListens">Number of Listens</label>
+              <label htmlFor="numListens">👂 Number of Listens</label>
               <input
                 type="number"
                 id="numListens"
@@ -185,12 +190,13 @@ const Albums = () => {
                 className="form-control"
                 value={formData.numListens}
                 onChange={handleInputChange}
+                placeholder="Enter number of listens"
                 required
               />
             </div>
             
             <div className="form-group">
-              <label>Songs</label>
+              <label>🎵 Songs</label>
               <div className="song-input-container">
                 <input
                   type="text"
@@ -200,12 +206,12 @@ const Albums = () => {
                   onChange={handleSongInputChange}
                   placeholder="Enter song name"
                 />
-                <button type="button" className="btn btn-secondary" onClick={addSong}>Add Song</button>
+                <button type="button" className="btn btn-secondary" onClick={addSong}>Add</button>
               </div>
               
               {formData.songs.length > 0 && (
                 <div className="songs-list">
-                  <h4>Album Songs:</h4>
+                  <h4>🎵 Album Songs</h4>
                   <ul>
                     {formData.songs.map((song, index) => (
                       <li key={index}>
@@ -224,17 +230,17 @@ const Albums = () => {
               )}
             </div>
             
-            <button type="submit" className="btn btn-primary">Create Album</button>
+            <button type="submit" className="btn btn-primary">✨ Create Album</button>
           </form>
         </div>
       )}
 
       {activeTab === 'update' && (
         <div className="form-container">
-          <h2>Update Album</h2>
+          <h2>✏️ Update Album</h2>
           <form onSubmit={handleUpdate}>
             <div className="form-group">
-              <label htmlFor="name">Album Name</label>
+              <label htmlFor="name">💿 Album Name</label>
               <input
                 type="text"
                 id="name"
@@ -247,7 +253,7 @@ const Albums = () => {
             </div>
             
             <div className="form-group">
-              <label htmlFor="artist">Artist</label>
+              <label htmlFor="artist">👤 Artist</label>
               <input
                 type="text"
                 id="artist"
@@ -260,7 +266,7 @@ const Albums = () => {
             </div>
             
             <div className="form-group">
-              <label htmlFor="releaseYear">Release Year</label>
+              <label htmlFor="releaseYear">📅 Release Year</label>
               <input
                 type="number"
                 id="releaseYear"
@@ -273,7 +279,7 @@ const Albums = () => {
             </div>
             
             <div className="form-group">
-              <label htmlFor="numListens">Number of Listens</label>
+              <label htmlFor="numListens">👂 Number of Listens</label>
               <input
                 type="number"
                 id="numListens"
@@ -286,7 +292,7 @@ const Albums = () => {
             </div>
             
             <div className="form-group">
-              <label>Songs</label>
+              <label>🎵 Songs</label>
               <div className="song-input-container">
                 <input
                   type="text"
@@ -296,12 +302,12 @@ const Albums = () => {
                   onChange={handleSongInputChange}
                   placeholder="Enter song name"
                 />
-                <button type="button" className="btn btn-secondary" onClick={addSong}>Add Song</button>
+                <button type="button" className="btn btn-secondary" onClick={addSong}>Add</button>
               </div>
               
               {formData.songs.length > 0 && (
                 <div className="songs-list">
-                  <h4>Album Songs:</h4>
+                  <h4>🎵 Album Songs</h4>
                   <ul>
                     {formData.songs.map((song, index) => (
                       <li key={index}>
@@ -320,14 +326,14 @@ const Albums = () => {
               )}
             </div>
             
-            <button type="submit" className="btn btn-primary">Update Album</button>
+            <button type="submit" className="btn btn-primary">💾 Save Changes</button>
           </form>
         </div>
       )}
 
       {activeTab === 'retrieve' && (
         <div className="data-display">
-          <h2 className="data-header">All Albums</h2>
+          <h2 className="data-header">💿 All Albums</h2>
           {albums.length > 0 ? (
             albums.map(album => {
               const albumSongs = typeof album.songs === 'string' 
@@ -336,14 +342,17 @@ const Albums = () => {
                 
               return (
                 <div className="data-item" key={album.id}>
+                  <div className="album-cover">
+                    💿
+                  </div>
                   <h3>{album.name}</h3>
-                  <p><strong>Artist:</strong> {album.artist}</p>
-                  <p><strong>Release Year:</strong> {album.release_year}</p>
-                  <p><strong>Number of Listens:</strong> {album.num_listens}</p>
+                  <p><strong>👤 Artist:</strong> {album.artist}</p>
+                  <p><strong>📅 Release Year:</strong> {album.release_year}</p>
+                  <p><strong>👂 Number of Listens:</strong> {album.num_listens}</p>
                   
                   {albumSongs.length > 0 && (
                     <div className="album-songs">
-                      <p><strong>Songs:</strong></p>
+                      <p><strong>🎵 Songs:</strong></p>
                       <ul>
                         {albumSongs.map((song, index) => (
                           <li key={index}>{song.name}</li>
@@ -357,20 +366,20 @@ const Albums = () => {
                       className="btn btn-secondary"
                       onClick={() => prepareUpdate(album)}
                     >
-                      Edit
+                      ✏️ Edit
                     </button>
                     <button 
                       className="btn btn-secondary"
                       onClick={() => handleDelete(album.id)}
                     >
-                      Delete
+                      🗑️ Delete
                     </button>
                   </div>
                 </div>
               );
             })
           ) : (
-            <p>No albums found. Create some albums first!</p>
+            <p>No albums found. Create some albums first! ✨</p>
           )}
         </div>
       )}
