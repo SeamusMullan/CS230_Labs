@@ -35,9 +35,7 @@ function createTables() {
             id INT AUTO_INCREMENT PRIMARY KEY,
             name VARCHAR(255) NOT NULL,
             monthly_listeners INT,
-            genre VARCHAR(100),
-            albums JSON,
-            songs JSON
+            genre VARCHAR(100)
         )
     `;
     
@@ -46,10 +44,10 @@ function createTables() {
         CREATE TABLE IF NOT EXISTS Albums (
             id INT AUTO_INCREMENT PRIMARY KEY,
             name VARCHAR(255) NOT NULL,
-            artist VARCHAR(255),
+            artist_id INT,
             release_year YEAR,
             num_listens INT,
-            songs JSON
+            FOREIGN KEY (artist_id) REFERENCES Artists(id) ON DELETE CASCADE
         )
     `;
     
@@ -58,9 +56,11 @@ function createTables() {
         CREATE TABLE IF NOT EXISTS Songs (
             id INT AUTO_INCREMENT PRIMARY KEY,
             name VARCHAR(255) NOT NULL,
-            artist VARCHAR(255),
+            artist_id INT,
+            album_id INT,
             release_year YEAR,
-            album JSON
+            FOREIGN KEY (artist_id) REFERENCES Artists(id) ON DELETE CASCADE,
+            FOREIGN KEY (album_id) REFERENCES Albums(id) ON DELETE CASCADE
         )
     `;
 

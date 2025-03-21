@@ -61,6 +61,21 @@
   background: rgba(255, 255, 255, 0.08);
 }
 
+.existing-item {
+  background-color: rgba(105, 217, 255, 0.1) !important;
+  border-left: 3px solid #69d9ff;
+}
+
+.existing-badge {
+  font-size: 0.7rem;
+  color: #69d9ff;
+  background: rgba(105, 217, 255, 0.1);
+  padding: 2px 5px;
+  border-radius: 4px;
+  margin-left: 8px;
+  font-weight: 600;
+}
+
 @keyframes fadeIn {
   from { opacity: 0; }
   to { opacity: 1; }

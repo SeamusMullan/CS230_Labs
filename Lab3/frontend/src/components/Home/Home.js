@@ -6,45 +6,37 @@ const Home = () => {
   return (
     <div className="home-container">
       <div className="home-header">
-        <h1 className="home-title">Your Music Universe</h1>
-        <p className="home-subtitle">Discover, create, and enjoy your personal music collection</p>
+        <h1 className="home-title">CS320 App</h1>
+        <p className="home-subtitle">Blah blah blah</p>
       </div>
       
       <p className="home-intro">
-        Welcome to MusicCloud, where your musical journey begins. Explore your favorite artists, discover new songs, 
-        and organize your collection with our premium music experience.
+      CS230 Lab 3: Building a music library application with React, Axios, Express and MySQL.
       </p>
       
       <div className="card-container">
         <Link to="/artists" className="card-link">
           <div className="card">
-            <div className="card-icon">👩‍🎤</div>
             <h2>Artists</h2>
-            <p>Browse and manage your favorite music creators</p>
+            <p>Add, View, Edit and delete Artists</p>
           </div>
         </Link>
         
         <Link to="/songs" className="card-link">
           <div className="card">
-            <div className="card-icon">🎵</div>
             <h2>Songs</h2>
-            <p>Discover and organize your music library</p>
+            <p>Add, View, Edit and delete Songs</p>
           </div>
         </Link>
         
         <Link to="/albums" className="card-link">
           <div className="card">
-            <div className="card-icon">💿</div>
             <h2>Albums</h2>
-            <p>Explore complete collections from your favorite artists</p>
+            <p>Add, View, Edit and delete Albums</p>
           </div>
         </Link>
       </div>
       
-      <div className="featured-section">
-        <h2>✨ Start Your Musical Journey</h2>
-        <p>Create your personal music database and enjoy a premium experience with our Apple Music-inspired interface.</p>
-      </div>
     </div>
   );
 };

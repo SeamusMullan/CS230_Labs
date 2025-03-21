@@ -11,7 +11,7 @@ function App() {
     <Router>
       <div className="App">
         <header className="App-header">
-          <h1>✨ MusicCloud</h1>
+          <h1>CS230 Lab 3</h1>
           <nav>
             <ul className="nav-links">
               <li><Link to="/">Home</Link></li>
@@ -32,7 +32,7 @@ function App() {
         </main>
         
         <footer className="App-footer">
-          <p>CS230 Lab 3 - Premium Music Experience ✨</p>
+          <p>CS230 Lab 3</p>
         </footer>
       </div>
     </Router>

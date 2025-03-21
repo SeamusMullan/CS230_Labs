@@ -47,14 +47,25 @@
 .album-songs ul {
   list-style-type: none;
   padding: 0;
+  max-height: 200px;
+  overflow-y: auto;
+  padding-right: 10px;
 }
 
 .album-songs li {
-  padding: 0.5rem 0.8rem;
+  display: flex;
+  align-items: center;
+  padding: 0.7rem 1rem;
   margin-bottom: 0.5rem;
   background: rgba(255, 255, 255, 0.05);
   border-radius: 6px;
   transition: all 0.2s ease;
+}
+
+.album-songs li:before {
+  content: "♪";
+  margin-right: 8px;
+  color: rgba(226, 51, 255, 0.8);
 }
 
 .album-songs li:hover {
@@ -72,6 +83,13 @@
   justify-content: center;
   font-size: 4rem;
   overflow: hidden;
+}
+
+.song-artist {
+  font-size: 0.85em;
+  color: rgba(255, 255, 255, 0.7);
+  font-style: italic;
+  margin-left: 5px;
 }
 
 @keyframes fadeIn {
