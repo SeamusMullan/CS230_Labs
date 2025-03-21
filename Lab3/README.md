@@ -12,28 +12,6 @@
 - PostgreSQL 14 for managing databases
 - Hosted on Express / Node.js
 
-#### Database Layout
-
-Artists
-- Name (varchar)
-- Monthly Listeners (int)
-- Genre (varchar)
-- Albums (json)
-- Songs (json)
-
-Albums
-- Name (varchar)
-- Artist (varchar)
-- Release Year (year)
-- Num. Listens (int)
-- Songs (json)
-
-Songs
-- Name (varchar)
-- Artist (varchar)
-- Release Year (year)
-- Album (json)
-
 ## Running the Project
 
 Open the project in VSCode, tasks for running fronted, backend and Postgres are included.
