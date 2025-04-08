@@ -25,74 +25,72 @@ connection.connect((err) => {
 function createTables() {
 
     // if any table exists, drop it first
-    const dropTherapists = `DROP TABLE IF EXISTS Therapists`;
-    const dropClients = `DROP TABLE IF EXISTS Clients`;
     const dropSessions = `DROP TABLE IF EXISTS Sessions`;
+    const dropClients = `DROP TABLE IF EXISTS Clients`;
+    const dropTherapists = `DROP TABLE IF EXISTS Therapists`; 
 
     // Create Therapists table
     const createTherapistsTable = `
         CREATE TABLE IF NOT EXISTS Therapists (
             id INT AUTO_INCREMENT PRIMARY KEY,
-            title VARCHAR(255),
+            title VARCHAR(50) NOT NULL,
             name VARCHAR(255) NOT NULL,
-            email VARCHAR(255) UNIQUE NOT NULL,
-            location VARCHAR(255),
-            experience_years INT,
-            taking_new_clients BOOLEAN DEFAULT TRUE
+            email VARCHAR(255) NOT NULL,
+            location VARCHAR(255) NOT NULL,
+            years_practice INT NOT NULL,
+            availability ENUM('TAKING CLIENTS', 'NOT TAKING CLIENTS') NOT NULL
         )
     `;
-
+    
     // Create Clients table
     const createClientsTable = `
         CREATE TABLE IF NOT EXISTS Clients (
             id INT AUTO_INCREMENT PRIMARY KEY,
             name VARCHAR(255) NOT NULL,
-            email VARCHAR(255) UNIQUE NOT NULL,
-            phone VARCHAR(20),
-            appointment_regularity VARCHAR(255),
-            preferred_therapist INT,
-            FOREIGN KEY (preferred_therapist) REFERENCES Therapists(id) ON DELETE SET NULL
+            email VARCHAR(255) NOT NULL,
+            phone VARCHAR(50) NOT NULL,
+            appointment_regularity ENUM('WEEKLY', 'MONTHLY') NOT NULL
         )
     `;
-
+    
     // Create Sessions table
     const createSessionsTable = `
         CREATE TABLE IF NOT EXISTS Sessions (
             id INT AUTO_INCREMENT PRIMARY KEY,
-            client_id INT NOT NULL,
-            therapist_id INT NOT NULL,
+            therapist_id INT,
+            client_id INT,
             notes TEXT,
-            session_date DATETIME NOT NULL,
-            length_minutes INT NOT NULL,
-            FOREIGN KEY (client_id) REFERENCES Clients(id) ON DELETE CASCADE,
-            FOREIGN KEY (therapist_id) REFERENCES Therapists(id) ON DELETE CASCADE
+            session_date DATE NOT NULL,
+            session_length INT NOT NULL,
+            FOREIGN KEY (therapist_id) REFERENCES Therapists(id) ON DELETE CASCADE,
+            FOREIGN KEY (client_id) REFERENCES Clients(id) ON DELETE CASCADE
         )
     `;
 
-    connection.query(dropTherapists, (err) => {
+    connection.query(dropSessions, (err) => {
         if (err) {
-            console.error("Error dropping Therapists table:", err);
+            console.error("Error Deleting Existing Table 'Sessions':", err);
             return;
         }
-        console.log('Dropped Therapists table');
+        console.log('Deleted Existing Tables for Sessions');
     });
 
     connection.query(dropClients, (err) => {
         if (err) {
-            console.error("Error dropping Clients table:", err);
+            console.error("Error Deleting Existing Table 'Clients':", err);
             return;
         }
-        console.log('Dropped Clients table');
+        console.log('Deleted Existing Tables for Clients');
     });
 
-    connection.query(dropSessions, (err) => {
+    connection.query(dropTherapists, (err) => {
         if (err) {
-            console.error("Error dropping Sessions table:", err);
+            console.error("Error Deleting Existing Table 'Therapists':", err);
             return;
         }
-        console.log('Dropped Sessions table');
+        console.log('Deleted Existing Tables for Therapists');
     });
-
+    
     // Execute queries
     connection.query(createTherapistsTable, (err) => {
         if (err) {
@@ -100,26 +98,24 @@ function createTables() {
             return;
         }
         console.log('Therapists table created or already exists');
+        
+        connection.query(createClientsTable, (err) => {
+            if (err) {
+                console.error('Error creating Clients table:', err);
+                return;
+            }
+            console.log('Clients table created or already exists');
+            
+            connection.query(createSessionsTable, (err) => {
+                if (err) {
+                    console.error('Error creating Sessions table:', err);
+                    return;
+                }
+                console.log('Sessions table created or already exists');
+                
+                // Close connection after all tables are created
+                connection.end();
+            });
+        });
     });
-
-    connection.query(createClientsTable, (err) => {
-        if (err) {
-            console.error('Error creating Clients table:', err);
-            return;
-        }
-        console.log('Clients table created or already exists');
-    });
-
-    connection.query(createSessionsTable, (err) => {
-        if (err) {
-            console.error('Error creating Sessions table:', err);
-            return;
-        }
-        console.log('Sessions table created or already exists');
-
-    });
-
-    // Close connection after all tables are created
-    connection.end();
-
 }

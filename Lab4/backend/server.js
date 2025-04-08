@@ -9,14 +9,15 @@ app.use(express.json());
 app.use(cors());
 
 // Import routes
-const artistRoutes = require('./routes/artistRoutes');
-const songRoutes = require('./routes/songRoutes');
-const albumRoutes = require('./routes/albumRoutes');
+const therapistRoutes = require('./routes/therapistRoutes');
+const clientRoutes = require('./routes/clientRoutes');
+const sessionRoutes = require('./routes/sessionRoutes');
+
 
 // Use routes
-app.use('/api/artists', artistRoutes);
-app.use('/api/songs', songRoutes);
-app.use('/api/albums', albumRoutes);
+app.use('/api/therapists', therapistRoutes);
+app.use('/api/clients', clientRoutes);
+app.use('/api/sessions', sessionRoutes);
 
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);

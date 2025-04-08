@@ -2,22 +2,22 @@ import React from 'react';
 import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom';
 import './App.css';
 import Home from './components/Home/Home';
-import Songs from './components/Songs/Songs';
-import Artists from './components/Artists/Artists';
-import Albums from './components/Albums/Albums';
+import Therapists from './components/Therapists/Therapists';
+import Clients from './components/Clients/Clients';
+import Sessions from './components/Sessions/Sessions';
 
 function App() {
   return (
     <Router>
       <div className="App">
         <header className="App-header">
-          <h1>CS230 Lab 3</h1>
+          <h1>Therapist Client Management System</h1>
           <nav>
             <ul className="nav-links">
               <li><Link to="/">Home</Link></li>
-              <li><Link to="/artists">Artists</Link></li>
-              <li><Link to="/songs">Songs</Link></li>
-              <li><Link to="/albums">Albums</Link></li>
+              <li><Link to="/therapists">Therapists</Link></li>
+              <li><Link to="/clients">Clients</Link></li>
+              <li><Link to="/sessions">Sessions</Link></li>
             </ul>
           </nav>
         </header>
@@ -25,14 +25,14 @@ function App() {
         <main className="App-content">
           <Routes>
             <Route path="/" element={<Home />} />
-            <Route path="/artists" element={<Artists />} />
-            <Route path="/songs" element={<Songs />} />
-            <Route path="/albums" element={<Albums />} />
+            <Route path="/therapists" element={<Therapists />} />
+            <Route path="/clients" element={<Clients />} />
+            <Route path="/sessions" element={<Sessions />} />
           </Routes>
         </main>
         
         <footer className="App-footer">
-          <p>CS230 Lab 3</p>
+          <p>CS230 Assignment 4 - Therapist Client Management System</p>
         </footer>
       </div>
     </Router>

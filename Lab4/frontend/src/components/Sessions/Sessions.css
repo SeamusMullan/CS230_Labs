@@ -1,0 +1,116 @@
+.sessions-container {
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.sessions-header {
+  margin-bottom: 2rem;
+  text-align: center;
+}
+
+.sessions-title {
+  font-size: 2.5rem;
+  font-weight: 700;
+  margin-bottom: 0.5rem;
+  background: linear-gradient(90deg, #fc466b 0%, #3f5efb 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  letter-spacing: -0.5px;
+}
+
+.table-responsive {
+  overflow-x: auto;
+}
+
+.data-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 1rem;
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 10px;
+  overflow: hidden;
+}
+
+.data-table thead {
+  background: rgba(80, 80, 80, 0.2);
+}
+
+.data-table th,
+.data-table td {
+  padding: 1rem;
+  text-align: left;
+  color: #000;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.data-table th {
+  font-weight: 600;
+  color: #000;
+}
+
+.data-table tbody tr:hover {
+  background: rgba(255, 255, 255, 0.05);
+}
+
+.btn-icon {
+  background: none;
+  border: none;
+  font-size: 1.2rem;
+  cursor: pointer;
+  margin-right: 0.5rem;
+  transition: transform 0.2s;
+}
+
+.btn-icon:hover {
+  transform: scale(1.2);
+}
+
+.edit-btn:hover {
+  color: #3f5efb;
+}
+
+.delete-btn:hover {
+  color: #ff4757;
+}
+
+.no-data {
+  text-align: center;
+  padding: 2rem !important;
+  color: rgba(255, 255, 255, 0.6);
+  font-style: italic;
+}
+
+.notes-cell {
+  max-width: 250px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.no-notes {
+  color: rgba(255, 255, 255, 0.4);
+  font-style: italic;
+}
+
+textarea.form-control {
+  resize: vertical;
+  min-height: 100px;
+}
+
+.response-message {
+  margin-top: 1.5rem;
+  padding: 1rem;
+  background: rgba(63, 94, 251, 0.1);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border-radius: 8px;
+  border-left: 4px solid #3f5efb;
+  animation: fadeIn 0.3s ease-in;
+  text-align: center;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}

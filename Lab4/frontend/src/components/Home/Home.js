@@ -6,37 +6,42 @@ const Home = () => {
   return (
     <div className="home-container">
       <div className="home-header">
-        <h1 className="home-title">CS320 App</h1>
-        <p className="home-subtitle">Blah blah blah</p>
+        <h1 className="home-title">CS320 Lab</h1>
+        <p className="home-subtitle">Therapist-Client Management System</p>
       </div>
       
       <p className="home-intro">
-      CS230 Lab 3: Building a music library application with React, Axios, Express and MySQL.
+        Blah blah blah blah some crap goes here.
       </p>
       
       <div className="card-container">
-        <Link to="/artists" className="card-link">
+        <Link to="/therapists" className="card-link">
           <div className="card">
-            <h2>Artists</h2>
-            <p>Add, View, Edit and delete Artists</p>
+            <div className="feature-icon">👩‍⚕️</div>
+            <h2>Therapists</h2>
+            <p>Add, view, edit, and manage therapist profiles and information.</p>
+            <button className="btn btn-primary">Manage Therapists</button>
           </div>
         </Link>
         
-        <Link to="/songs" className="card-link">
+        <Link to="/clients" className="card-link">
           <div className="card">
-            <h2>Songs</h2>
-            <p>Add, View, Edit and delete Songs</p>
+            <div className="feature-icon">👤</div>
+            <h2>Clients</h2>
+            <p>Keep track of client information, treatment history, and assigned therapists.</p>
+            <button className="btn btn-primary">Manage Clients</button>
           </div>
         </Link>
         
-        <Link to="/albums" className="card-link">
+        <Link to="/appointments" className="card-link">
           <div className="card">
-            <h2>Albums</h2>
-            <p>Add, View, Edit and delete Albums</p>
+            <div className="feature-icon">📅</div>
+            <h2>Appointments</h2>
+            <p>Schedule and organize therapy appointments, sessions, and follow-ups.</p>
+            <button className="btn btn-primary">Manage Appointments</button>
           </div>
         </Link>
       </div>
-      
     </div>
   );
 };
