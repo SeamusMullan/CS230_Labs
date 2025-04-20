@@ -1,7 +1,6 @@
 const express = require('express');
 const router = express.Router();
-// Use the userController logic (which is now in therapistController.js due to failed rename)
-const userController = require('../controllers/therapistController');
+const userController = require('../controllers/userController'); // Corrected controller name
 const auth = require('../middleware/auth'); // Import auth middleware
 
 // Public routes

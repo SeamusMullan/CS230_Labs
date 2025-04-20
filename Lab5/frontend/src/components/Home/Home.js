@@ -3,47 +3,39 @@ import { Link } from 'react-router-dom';
 import './Home.css';
 
 const Home = () => {
-  return (
-    <div className="home-container">
-      <div className="home-header">
-        <h1 className="home-title">CS320 Lab</h1>
-        <p className="home-subtitle">Therapist-Client Management System</p>
-      </div>
-      
-      <p className="home-intro">
-        Blah blah blah blah some crap goes here.
-      </p>
-      
-      <div className="card-container">
-        <Link to="/therapists" className="card-link">
-          <div className="card">
-            <div className="feature-icon">👩‍⚕️</div>
-            <h2>Therapists</h2>
-            <p>Add, view, edit, and manage therapist profiles and information.</p>
-            <button className="btn btn-primary">Manage Therapists</button>
-          </div>
-        </Link>
-        
-        <Link to="/clients" className="card-link">
-          <div className="card">
-            <div className="feature-icon">👤</div>
-            <h2>Clients</h2>
-            <p>Keep track of client information, treatment history, and assigned therapists.</p>
-            <button className="btn btn-primary">Manage Clients</button>
-          </div>
-        </Link>
-        
-        <Link to="/appointments" className="card-link">
-          <div className="card">
-            <div className="feature-icon">📅</div>
-            <h2>Appointments</h2>
-            <p>Schedule and organize therapy appointments, sessions, and follow-ups.</p>
-            <button className="btn btn-primary">Manage Appointments</button>
-          </div>
-        </Link>
-      </div>
-    </div>
-  );
+    const isLoggedIn = !!localStorage.getItem('token'); // Check if user is logged in
+    const user = JSON.parse(localStorage.getItem('user'));
+
+    return (
+        <div className="home-container">
+            <header className="home-header">
+                <h1>Welcome to Your Travel Blog</h1>
+                <p>Document your adventures and plan your future journeys.</p>
+            </header>
+
+            {isLoggedIn ? (
+                <div className="user-info">
+                    <h2>Hello, {user?.username}!</h2>
+                    <p>What would you like to do today?</p>
+                    <div className="home-actions">
+                        <Link to="/travel-logs" className="btn btn-home">View My Travel Logs</Link>
+                        <Link to="/journey-plans" className="btn btn-home">View My Journey Plans</Link>
+                    </div>
+                     {/* Optional: Display more profile info */}
+                    {/*
+                    <div className="profile-details">
+                        <p><strong>Email:</strong> {user?.email}</p>
+                        <p><strong>Address:</strong> {user?.address || 'Not provided'}</p>
+                    </div>
+                    */}
+                </div>
+            ) : (
+                <div className="login-prompt">
+                    <p>Please <Link to="/login">login or register</Link> to manage your travel logs and journey plans.</p>
+                </div>
+            )}
+        </div>
+    );
 };
 
 export default Home;

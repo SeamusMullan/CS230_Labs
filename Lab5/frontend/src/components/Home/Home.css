@@ -1,7 +1,11 @@
 .home-container {
-  max-width: 1200px;
-  margin: 0 auto;
-  padding: 2rem 1rem 3rem;
+  max-width: 800px;
+  margin: 40px auto;
+  padding: 40px 20px;
+  text-align: center;
+  background-color: #f8f9fa;
+  border-radius: 8px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
 }
 
 .home-intro {
@@ -22,6 +26,18 @@
 .home-header {
   text-align: center;
   margin-bottom: 3rem;
+}
+
+.home-header h1 {
+  font-size: 2.5em;
+  color: #343a40;
+  margin-bottom: 10px;
+}
+
+.home-header p {
+  font-size: 1.2em;
+  color: #6c757d;
+  margin-bottom: 30px;
 }
 
 .home-title {
@@ -116,4 +132,82 @@
 .card .btn {
   margin-top: auto;
   align-self: center;
+}
+
+.user-info h2 {
+  font-size: 2em;
+  color: #007bff;
+  margin-bottom: 10px;
+}
+
+.user-info p {
+  font-size: 1.1em;
+  color: #495057;
+  margin-bottom: 25px;
+}
+
+.home-actions {
+  display: flex;
+  justify-content: center;
+  gap: 20px; /* Adds space between the buttons */
+  margin-bottom: 30px;
+}
+
+.btn-home {
+  padding: 12px 25px;
+  font-size: 1.1em;
+  text-decoration: none;
+  border-radius: 5px;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+  color: white;
+  background-color: #007bff;
+  border: none;
+}
+
+.btn-home:hover {
+  background-color: #0056b3;
+  transform: translateY(-2px);
+}
+
+.btn-home:last-child {
+  background-color: #17a2b8; /* Different color for the second button */
+}
+
+.btn-home:last-child:hover {
+  background-color: #117a8b;
+}
+
+.profile-details {
+  margin-top: 30px;
+  padding-top: 20px;
+  border-top: 1px solid #dee2e6;
+  text-align: left; /* Align details to the left */
+  max-width: 400px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.profile-details p {
+  font-size: 1em;
+  color: #495057;
+  margin-bottom: 8px;
+}
+
+.profile-details strong {
+  color: #343a40;
+}
+
+.login-prompt p {
+  font-size: 1.2em;
+  color: #6c757d;
+}
+
+.login-prompt a {
+  color: #007bff;
+  text-decoration: none;
+  font-weight: bold;
+}
+
+.login-prompt a:hover {
+  text-decoration: underline;
 }

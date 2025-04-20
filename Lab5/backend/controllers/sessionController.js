@@ -1,4 +1,5 @@
 const mysql = require('mysql');
+require('dotenv').config({ path: '../.env' });
 
 // Create MySQL connection
 const connection = mysql.createConnection({
@@ -8,217 +9,211 @@ const connection = mysql.createConnection({
     database: process.env.DB_NAME
 });
 
-// Connect to database
-connection.connect(err => {
-    if (err) {
-        console.error('Error connecting to MySQL:', err);
-    } else {
-        console.log('Connected to MySQL database in session controller');
+// Helper to parse JSON safely
+const safeJsonParse = (str) => {
+    try {
+        return JSON.parse(str);
+    } catch (e) {
+        return []; // Return empty array or handle error as appropriate
     }
-});
-
-// Get all sessions
-exports.getAllSessions = (req, res) => {
-    // Join with therapists and clients to get their names
-    const query = `
-        SELECT s.*, 
-               t.name as therapist_name, 
-               c.name as client_name
-        FROM Sessions s
-        LEFT JOIN Therapists t ON s.therapist_id = t.id
-        LEFT JOIN Clients c ON s.client_id = c.id
-    `;
-    
-    connection.query(query, (err, results) => {
-        if (err) {
-            console.error('Database error:', err);
-            return res.status(500).json({ error: 'Internal server error' });
-        }
-        res.json(results);
-    });
 };
 
-// Get session by ID
-exports.getSessionById = (req, res) => {
-    const { id } = req.params;
-    
-    // Join with therapists and clients to get their names
-    const query = `
-        SELECT s.*, 
-               t.name as therapist_name, 
-               c.name as client_name
-        FROM Sessions s
-        LEFT JOIN Therapists t ON s.therapist_id = t.id
-        LEFT JOIN Clients c ON s.client_id = c.id
-        WHERE s.id = ?
-    `;
-    
-    connection.query(query, [id], (err, results) => {
-        if (err) {
-            console.error('Database error:', err);
-            return res.status(500).json({ error: 'Internal server error' });
-        }
-        
-        if (results.length === 0) {
-            return res.status(404).json({ error: 'Session not found' });
-        }
-        
-        res.json(results[0]);
-    });
+// Format date to YYYY-MM-DD for MySQL
+const formatDateForMySQL = (dateString) => {
+    if (!dateString) return null;
+    const date = new Date(dateString);
+    return date.toISOString().split('T')[0]; // Extract just the YYYY-MM-DD part
 };
 
-// Create new session
-exports.createSession = (req, res) => {
-    const { therapist_id, client_id, notes, session_date, session_length } = req.body;
-    
-    // Validate therapist and client existence
+// Get all journey plans for the current user
+exports.getAllJourneyPlans = (req, res) => {
+    if (!req.user || !req.user.userId) {
+         return res.status(401).json({ error: 'Authentication required' });
+    }
     connection.query(
-        'SELECT id FROM Therapists WHERE id = ?', 
-        [therapist_id], 
-        (err, therapistResults) => {
+        'SELECT * FROM JourneyPlans WHERE user_id = ? ORDER BY start_date DESC',
+        [req.user.userId],
+        (err, results) => {
             if (err) {
-                console.error('Database error:', err);
-                return res.status(500).json({ error: 'Internal server error' });
+                console.error('Database error fetching journey plans:', err);
+                return res.status(500).json({ error: 'Failed to fetch journey plans' });
             }
-            
-            if (therapistResults.length === 0) {
-                return res.status(400).json({ error: 'Therapist not found' });
+
+            // Parse JSON fields
+            const journeyPlans = results.map(plan => ({
+                ...plan,
+                locations: plan.locations ? safeJsonParse(plan.locations) : [],
+                activities: plan.activities ? safeJsonParse(plan.activities) : []
+            }));
+
+            res.json(journeyPlans);
+        }
+    );
+};
+
+// Get single journey plan by ID
+exports.getJourneyPlanById = (req, res) => {
+    if (!req.user || !req.user.userId) {
+         return res.status(401).json({ error: 'Authentication required' });
+    }
+    const { id } = req.params;
+
+    connection.query(
+        'SELECT * FROM JourneyPlans WHERE id = ? AND user_id = ?',
+        [id, req.user.userId],
+        (err, results) => {
+            if (err) {
+                console.error('Database error fetching single journey plan:', err);
+                return res.status(500).json({ error: 'Failed to fetch journey plan' });
             }
-            
+
+            if (results.length === 0) {
+                return res.status(404).json({ error: 'Journey plan not found or not owned by user' });
+            }
+
+            // Parse JSON fields
+            const journeyPlan = {
+                ...results[0],
+                locations: results[0].locations ? safeJsonParse(results[0].locations) : [],
+                activities: results[0].activities ? safeJsonParse(results[0].activities) : []
+            };
+
+            res.json(journeyPlan);
+        }
+    );
+};
+
+// Create new journey plan
+exports.createJourneyPlan = (req, res) => {
+    if (!req.user || !req.user.userId) {
+         return res.status(401).json({ error: 'Authentication required' });
+    }
+    const { name, locations, start_date, end_date, activities, description } = req.body;
+    const user_id = req.user.userId;
+
+    if (!name || !start_date || !end_date) {
+        return res.status(400).json({ error: 'Name, start date, and end date are required' });
+    }
+
+    // Format dates for MySQL
+    const formattedStartDate = formatDateForMySQL(start_date);
+    const formattedEndDate = formatDateForMySQL(end_date);
+
+    // Convert array fields to JSON strings
+    const locationsString = JSON.stringify(Array.isArray(locations) ? locations : []);
+    const activitiesString = JSON.stringify(Array.isArray(activities) ? activities : []);
+
+    connection.query(
+        'INSERT INTO JourneyPlans (name, locations, start_date, end_date, activities, description, user_id) VALUES (?, ?, ?, ?, ?, ?, ?)',
+        [name, locationsString, formattedStartDate, formattedEndDate, activitiesString, description || null, user_id],
+        (err, result) => {
+            if (err) {
+                console.error('Database error creating journey plan:', err);
+                return res.status(500).json({ error: 'Failed to create journey plan' });
+            }
+
+            // Return the created journey plan
             connection.query(
-                'SELECT id FROM Clients WHERE id = ?', 
-                [client_id], 
-                (err, clientResults) => {
-                    if (err) {
-                        console.error('Database error:', err);
-                        return res.status(500).json({ error: 'Internal server error' });
+                'SELECT * FROM JourneyPlans WHERE id = ?',
+                [result.insertId],
+                (err, results) => {
+                    if (err || results.length === 0) {
+                        console.error('Database error retrieving created journey plan:', err);
+                        return res.status(500).json({ error: 'Failed to retrieve created journey plan' });
                     }
-                    
-                    if (clientResults.length === 0) {
-                        return res.status(400).json({ error: 'Client not found' });
-                    }
-                    
-                    // Create the session
-                    connection.query(
-                        'INSERT INTO Sessions (therapist_id, client_id, notes, session_date, session_length) VALUES (?, ?, ?, ?, ?)',
-                        [therapist_id, client_id, notes, session_date, session_length],
-                        (err, result) => {
-                            if (err) {
-                                console.error('Database error:', err);
-                                return res.status(500).json({ error: 'Internal server error' });
-                            }
-                            
-                            // Get the created session with therapist and client details
-                            const query = `
-                                SELECT s.*, 
-                                       t.name as therapist_name, 
-                                       c.name as client_name
-                                FROM Sessions s
-                                LEFT JOIN Therapists t ON s.therapist_id = t.id
-                                LEFT JOIN Clients c ON s.client_id = c.id
-                                WHERE s.id = ?
-                            `;
-                            
-                            connection.query(query, [result.insertId], (err, results) => {
-                                if (err) {
-                                    console.error('Database error:', err);
-                                    return res.status(500).json({ error: 'Internal server error' });
-                                }
-                                res.status(201).json(results[0]);
-                            });
-                        }
-                    );
+
+                    // Parse JSON fields
+                    const journeyPlan = {
+                        ...results[0],
+                        locations: results[0].locations ? safeJsonParse(results[0].locations) : [],
+                        activities: results[0].activities ? safeJsonParse(results[0].activities) : []
+                    };
+
+                    res.status(201).json(journeyPlan);
                 }
             );
         }
     );
 };
 
-// Update session
-exports.updateSession = (req, res) => {
+// Update journey plan
+exports.updateJourneyPlan = (req, res) => {
+    if (!req.user || !req.user.userId) {
+         return res.status(401).json({ error: 'Authentication required' });
+    }
     const { id } = req.params;
-    const { therapist_id, client_id, notes, session_date, session_length } = req.body;
-    
-    // Validate therapist and client existence
+    const { name, locations, start_date, end_date, activities, description } = req.body;
+
+    if (!name || !start_date || !end_date) {
+        return res.status(400).json({ error: 'Name, start date, and end date are required' });
+    }
+
+    // Format dates for MySQL
+    const formattedStartDate = formatDateForMySQL(start_date);
+    const formattedEndDate = formatDateForMySQL(end_date);
+
+    // Convert array fields to JSON strings
+    const locationsString = JSON.stringify(Array.isArray(locations) ? locations : []);
+    const activitiesString = JSON.stringify(Array.isArray(activities) ? activities : []);
+
     connection.query(
-        'SELECT id FROM Therapists WHERE id = ?', 
-        [therapist_id], 
-        (err, therapistResults) => {
+        'UPDATE JourneyPlans SET name = ?, locations = ?, start_date = ?, end_date = ?, activities = ?, description = ? WHERE id = ? AND user_id = ?',
+        [name, locationsString, formattedStartDate, formattedEndDate, activitiesString, description || null, id, req.user.userId],
+        (err, result) => {
             if (err) {
-                console.error('Database error:', err);
-                return res.status(500).json({ error: 'Internal server error' });
+                console.error('Database error updating journey plan:', err);
+                return res.status(500).json({ error: 'Failed to update journey plan' });
             }
-            
-            if (therapistResults.length === 0) {
-                return res.status(400).json({ error: 'Therapist not found' });
+
+             if (result.affectedRows === 0) {
+                 return res.status(404).json({ error: 'Journey plan not found or not owned by user' });
             }
-            
+
+            // Return the updated journey plan
             connection.query(
-                'SELECT id FROM Clients WHERE id = ?', 
-                [client_id], 
-                (err, clientResults) => {
-                    if (err) {
-                        console.error('Database error:', err);
-                        return res.status(500).json({ error: 'Internal server error' });
+                'SELECT * FROM JourneyPlans WHERE id = ?',
+                [id],
+                (err, results) => {
+                    if (err || results.length === 0) {
+                        console.error('Database error retrieving updated journey plan:', err);
+                        return res.status(500).json({ error: 'Failed to retrieve updated journey plan' });
                     }
-                    
-                    if (clientResults.length === 0) {
-                        return res.status(400).json({ error: 'Client not found' });
-                    }
-                    
-                    // Update the session
-                    connection.query(
-                        'UPDATE Sessions SET therapist_id = ?, client_id = ?, notes = ?, session_date = ?, session_length = ? WHERE id = ?',
-                        [therapist_id, client_id, notes, session_date, session_length, id],
-                        (err, result) => {
-                            if (err) {
-                                console.error('Database error:', err);
-                                return res.status(500).json({ error: 'Internal server error' });
-                            }
-                            
-                            if (result.affectedRows === 0) {
-                                return res.status(404).json({ error: 'Session not found' });
-                            }
-                            
-                            // Get the updated session with therapist and client details
-                            const query = `
-                                SELECT s.*, 
-                                       t.name as therapist_name, 
-                                       c.name as client_name
-                                FROM Sessions s
-                                LEFT JOIN Therapists t ON s.therapist_id = t.id
-                                LEFT JOIN Clients c ON s.client_id = c.id
-                                WHERE s.id = ?
-                            `;
-                            
-                            connection.query(query, [id], (err, results) => {
-                                if (err) {
-                                    console.error('Database error:', err);
-                                    return res.status(500).json({ error: 'Internal server error' });
-                                }
-                                res.json(results[0]);
-                            });
-                        }
-                    );
+
+                    // Parse JSON fields
+                    const journeyPlan = {
+                        ...results[0],
+                        locations: results[0].locations ? safeJsonParse(results[0].locations) : [],
+                        activities: results[0].activities ? safeJsonParse(results[0].activities) : []
+                    };
+
+                    res.json(journeyPlan);
                 }
             );
         }
     );
 };
 
-// Delete session
-exports.deleteSession = (req, res) => {
+// Delete journey plan
+exports.deleteJourneyPlan = (req, res) => {
+    if (!req.user || !req.user.userId) {
+         return res.status(401).json({ error: 'Authentication required' });
+    }
     const { id } = req.params;
-    connection.query('DELETE FROM Sessions WHERE id = ?', [id], (err, result) => {
-        if (err) {
-            console.error('Database error:', err);
-            return res.status(500).json({ error: 'Internal server error' });
+
+    connection.query(
+        'DELETE FROM JourneyPlans WHERE id = ? AND user_id = ?',
+        [id, req.user.userId],
+        (err, result) => {
+            if (err) {
+                console.error('Database error deleting journey plan:', err);
+                return res.status(500).json({ error: 'Failed to delete journey plan' });
+            }
+
+             if (result.affectedRows === 0) {
+                 return res.status(404).json({ error: 'Journey plan not found or not owned by user' });
+            }
+
+            res.json({ message: 'Journey plan deleted successfully' });
         }
-        
-        if (result.affectedRows === 0) {
-            return res.status(404).json({ error: 'Session not found' });
-        }
-        
-        res.json({ message: 'Session deleted successfully' });
-    });
+    );
 };
