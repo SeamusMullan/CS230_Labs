@@ -1,0 +1,56 @@
+{
+    "version": "2.0.0",
+    "tasks": [
+      {
+        "label": "Install Shi",
+        "type": "shell",
+        "command": "cd frontend && npm install && cd ../backend && npm install",
+        "presentation": {
+          "panel": "dedicated",
+          "showReuseMessage": false
+        },
+        "problemMatcher": []
+      },
+      {
+        "label": "Launch Backend (MacOs)",
+        "type": "shell",
+        "command": "cd backend && npx nodemon server.js",
+        "presentation": {
+          "panel": "dedicated",
+          "showReuseMessage": false
+        },
+        "problemMatcher": []
+      },
+      {
+        "label": "Launch Frontend (MacOs)",
+        "type": "shell",
+        "command": "cd frontend && npm start",
+        "presentation": {
+          "panel": "dedicated",
+          "showReuseMessage": false
+        },
+        "problemMatcher": []
+      },
+      {
+        "label": "Launch Backend (Windows)",
+        "type": "shell",
+        "command": "cd backend; npx nodemon server.js",
+        "presentation": {
+          "panel": "dedicated",
+          "showReuseMessage": false
+        },
+        "problemMatcher": []
+      },
+      {
+        "label": "Launch Frontend (Windows)",
+        "type": "shell",
+        "command": "cd frontend; npm start",
+        "presentation": {
+          "panel": "dedicated",
+          "showReuseMessage": false
+        },
+        "problemMatcher": []
+      }
+    ]
+  }
+  
